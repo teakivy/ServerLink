@@ -22,7 +22,6 @@ client.on('ready', () => {
 });
 
 let token = Build.getBuildType() === 'release' ? process.env.RELEASE_TOKEN : process.env.DEV_TOKEN;
-console.log(token);
 Build.updateBuild();
 
 client.login(token);
