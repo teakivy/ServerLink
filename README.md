@@ -7,7 +7,7 @@ Your friendly inter-server Discord Bot!
 ## Credits:
 
 - Bot Created & Developed by [TeakIvy](https://dsc.gg/teakivy)
-- Server Link Idea from [Mr. Redstone](https://discord.gg/e4uaUw85RW)
+- ServerLink originally created by [Mr. Redstone](https://github.com/MrRedstoneYT)
 
 ## Support
 
