@@ -7,7 +7,6 @@ export default (client: Client, instance: WOKCommands) => {
 	client.on('messageCreate', async (message) => {
 		if (message.author.bot) return;
 		let toChannels = await getLinkChannels(message.channel as TextChannel);
-		let fromChannel = message.channel;
 
 		let avatarURL: string | undefined | null = message.author.avatarURL();
 		if (!avatarURL) avatarURL = undefined;
