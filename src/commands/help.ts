@@ -2,7 +2,7 @@ import { ApplicationCommand, MessageEmbed, Permissions, TextChannel } from 'disc
 import { Brand } from '../utils';
 import { ICommand } from 'wokcommands';
 import { client } from '../main';
-import { Logger } from '../core/logger';
+import { commands } from '../core/commands';
 
 let missingPermissionsEmbed = (channel: TextChannel, missingPermissions: string[]) => {
 	return new MessageEmbed({
@@ -15,13 +15,13 @@ let missingPermissionsEmbed = (channel: TextChannel, missingPermissions: string[
 };
 
 export default {
-	name: 'ping',
+	name: 'help',
 	category: 'Utility',
-	description: 'Replies with pong',
+	description: 'Help Me!',
 
 	slash: true,
 
-	callback: async ({ interaction, client }) => {
+	callback: async ({ interaction }) => {
 		let missingPermissions = [];
 		if (!interaction.guild?.me?.permissions.has(Permissions.FLAGS.SEND_MESSAGES)) missingPermissions.push('SEND_MESSAGES');
 		if (!interaction.guild?.me?.permissions.has(Permissions.FLAGS.VIEW_CHANNEL)) missingPermissions.push('VIEW_CHANNEL');
@@ -33,20 +33,14 @@ export default {
 			});
 			return;
 		}
-
-		// interaction.guild?.commands.set([]);
 		const reply = new MessageEmbed({
-			title: '🏓  Pong!',
+			title: '❓  Help! - Commands',
 			color: Brand.color,
-			description: `Latency is \`${Math.abs(Date.now() - interaction.createdTimestamp)}ms\`. API Latency is \`${Math.round(
-				client.ws.ping
-			)}ms\`.`,
+			description: commands.map((c) => `•  \`/${c.usage}\` - ${c.description}`).join('\n\n'),
 		});
 
 		interaction.reply({
 			embeds: [reply],
 		});
-
-		Logger.log(`${interaction.user.tag} (${interaction.user.id}) ran /ping`);
 	},
 } as ICommand;

@@ -2,7 +2,6 @@ import { ApplicationCommand, MessageEmbed, Permissions, TextChannel } from 'disc
 import { Brand } from '../utils';
 import { ICommand } from 'wokcommands';
 import { client } from '../main';
-import { Logger } from '../core/logger';
 
 let missingPermissionsEmbed = (channel: TextChannel, missingPermissions: string[]) => {
 	return new MessageEmbed({
@@ -15,13 +14,13 @@ let missingPermissionsEmbed = (channel: TextChannel, missingPermissions: string[
 };
 
 export default {
-	name: 'ping',
+	name: 'howtolink',
 	category: 'Utility',
-	description: 'Replies with pong',
+	description: 'How to add a link to a channel',
 
 	slash: true,
 
-	callback: async ({ interaction, client }) => {
+	callback: async ({ interaction }) => {
 		let missingPermissions = [];
 		if (!interaction.guild?.me?.permissions.has(Permissions.FLAGS.SEND_MESSAGES)) missingPermissions.push('SEND_MESSAGES');
 		if (!interaction.guild?.me?.permissions.has(Permissions.FLAGS.VIEW_CHANNEL)) missingPermissions.push('VIEW_CHANNEL');
@@ -34,19 +33,18 @@ export default {
 			return;
 		}
 
-		// interaction.guild?.commands.set([]);
 		const reply = new MessageEmbed({
-			title: '🏓  Pong!',
+			title: '❓  How to Link Channels',
 			color: Brand.color,
-			description: `Latency is \`${Math.abs(Date.now() - interaction.createdTimestamp)}ms\`. API Latency is \`${Math.round(
-				client.ws.ping
-			)}ms\`.`,
+			description:
+				`**When linking a channel, you can either use the channel's ID or a channel mention.**\n> **-** If you are linking channels within the same server, you can use the channel mention.\n> **-** If you are linking channels between servers, you can must the channel's ID.\n\n\n` +
+				`**How to add channels using a Mention:**\n> Use the command \`/link add channel: <channel>\` like so: \`\`\`/link add channel:#general\`\`\`\n> This will link the *#general* channel to the current channel.\n\n\n` +
+				`**How to add channels using a Channel ID:**\n> **- [How to get a Channel ID?](https://youtu.be/B8tc-ebwv4g)**\n> \n> Use the command \`/link add channel_id: <channel id>\` like so: \`\`\`/link add channel:938939760477622275\`\`\`\n> This will link the channel with the ID *938939760477622275* to the current channel.\n\n` +
+				`<:info:939399136216743986>  ***Note:** Both channels MUST be linked to each other for the link to function.*`,
 		});
 
 		interaction.reply({
 			embeds: [reply],
 		});
-
-		Logger.log(`${interaction.user.tag} (${interaction.user.id}) ran /ping`);
 	},
 } as ICommand;

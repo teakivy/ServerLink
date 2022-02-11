@@ -1,4 +1,5 @@
 import { TextChannel, Webhook } from 'discord.js';
+import { Logger } from '../core/logger';
 import { client } from '../main';
 
 export const getWebhookWithChannel = (channelId: string): Promise<Webhook> => {
@@ -20,9 +21,13 @@ export const getWebhookWithChannel = (channelId: string): Promise<Webhook> => {
 				.then((wh) => {
 					resolve(wh);
 					webhook = wh;
+
+					Logger.log(`Created webhook in channel ${channel.name} (${channel.id})`);
 				})
-				.catch(() => {
+				.catch((err) => {
 					reject('Failed to create webhook');
+
+					Logger.error(`Failed to create webhook in channel ${channel.name} (${channel.id}):\n${err}`);
 				});
 		}
 
